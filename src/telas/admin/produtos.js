@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { doc, setDoc, collection, addDoc } from "firebase/firestore"; 
+import { db } from '../../../firebaseConfig'
+
+
 
 export default function Produtos({ navigation }) {
   
@@ -10,7 +14,12 @@ export default function Produtos({ navigation }) {
     const [quantidade, setQuantidade] = useState('');
   
     const handleInsertProduct = () => {
-      // Aqui você pode processar o produto inserido, por exemplo, salvar em um estado global, local storage, etc.
+       addDoc(collection(db, "produtos"), {
+        nome: nome,
+        descricao: descricao,
+        preco: preco,
+        estoque: quantidade
+      });
       console.log({
         nome,
         descricao,
@@ -24,6 +33,10 @@ export default function Produtos({ navigation }) {
       setQuantidade('');
       setShowForm(false);
     };
+
+    useEffect(()=>{
+
+    }, []);
     return (
       <View style={styles.container}>
         {!showForm ? (
@@ -61,7 +74,7 @@ export default function Produtos({ navigation }) {
         )}
       </View>
     );
-  
+          
   }
   
   const styles = StyleSheet.create({
