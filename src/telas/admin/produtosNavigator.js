@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react';  
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {  StyleSheet } from 'react-native';
 import Adashboard from './dashboard';
@@ -14,8 +14,6 @@ export default function ProdutosNavigator({ navigation }) {
         <Tab.Screen name="Produtos" component={Produtos} />
         <Tab.Screen name="Configurações" component={Configuracoes} />
         <Tab.Screen name="Eventos" component={Eventos} />
-
-
       </Tab.Navigator>
     );   
   }

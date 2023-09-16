@@ -5,11 +5,13 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 export default function ADashboard({ navigation }) {
  return( 
   <View style={styles.container}>
-      <Button 
-        title="Ir para Produtos" 
-        onPress={() => navigation.navigate('Produtos')} 
-      />
-    </View>
+    <Text>Aqui terão gráficos e infomações gerais sobre o aplicativo, vendas e seu desempenho </Text> 
+
+    <Button 
+        title="Ir para Vendas" 
+        onPress={() => navigation.navigate('Vendas')} 
+      /> 
+  </View>
  );
 
 }
