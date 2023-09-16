@@ -22,7 +22,7 @@ export default function Cadastro({ navigation }) {
           />
           <Button
             title="Login"
-            onPress={() => navigation.navigate('Adashboard') }
+            onPress={() => navigation.navigate('ProdutosNavigator') }
           />
       </SafeAreaView>
   );

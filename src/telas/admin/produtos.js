@@ -34,9 +34,6 @@ export default function Produtos({ navigation }) {
       setShowForm(false);
     };
 
-    useEffect(()=>{
-
-    }, []);
     return (
       <View style={styles.container}>
         {!showForm ? (
