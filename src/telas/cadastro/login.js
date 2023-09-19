@@ -1,25 +1,9 @@
 import {SafeAreaView, StyleSheet, TextInput, Button, Alert } from 'react-native';
 import React, { useState } from 'react';
-import auth from '@react-native-firebase/auth';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-
-
-export default function Cadastro({ navigation }) {
-  const [username, setUsername] = useState('');
+export default function Login({ navigation }) {
+  const [username, setUsername] = useState('');  
   const [password, setPassword] = useState('');
-
-  const criarUsuario = async () => {
-    try {
-      const auth = getAuth();
-  
-  const credenciais = await createUserWithEmailAndPassword(auth, username, password);
-      Alert.alert('Sucesso', `Usuário ${credenciais.user.email} criado com sucesso!`);
-    } catch (error) {
-      Alert.alert('Erro', 'Erro ao criar usuário: ' + error.message);
-
-    }
-  };
 
   return (
       <SafeAreaView style={styles.container}>
@@ -27,19 +11,23 @@ export default function Cadastro({ navigation }) {
               style={styles.input}
               onChangeText={setUsername}
               value={username}
-              placeholder="E-Mail"
+              placeholder="Usuário"
           />
           <TextInput
               style={styles.input}
               onChangeText={setPassword}
               value={password}
               placeholder="Senha"
-              secureTextEntry={true}  // Oculta o texto da senha
+              secureTextEntry={true}
           />
           <Button
-            title="Criar Usuário"
-            onPress={criarUsuario}
-          ></Button>
+            title="Login"
+            onPress={() => navigation.navigate('BottomNavigator') }
+          />
+          <Button
+            title="Cadastro"
+            onPress={() => navigation.navigate('Cadastro')}>
+          </Button>
       </SafeAreaView>
   );
 }
