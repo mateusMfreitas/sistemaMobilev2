@@ -1,84 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { doc, setDoc, collection, addDoc } from "firebase/firestore"; 
-import { db } from '../../../firebaseConfig'
-
-
+import { Text, View, Button, StyleSheet, FlatList } from 'react-native';
+import InserirProduto from '../../componentes/inserirProduto'; 
+import ListarProdutos from '../../componentes/listarProdutos';
 
 export default function Produtos({ navigation }) {
-  
     const [showForm, setShowForm] = useState(false);
-    const [nome, setNome] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [preco, setPreco] = useState('');
-    const [quantidade, setQuantidade] = useState('');
-  
-    const handleInsertProduct = () => {
-       addDoc(collection(db, "produtos"), {
-        nome: nome,
-        descricao: descricao,
-        preco: preco,
-        estoque: quantidade
-      });
-      console.log({
-        nome,
-        descricao,
-        preco,
-        quantidade
-      });
-      // Limpar os campos após inserção
-      setNome('');
-      setDescricao('');
-      setPreco('');
-      setQuantidade('');
-      setShowForm(false);
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+      const fetchProducts = async () => {
+          try {
+              const produtos = await ListarProdutos();
+              setProducts(produtos);
+          } catch (error) {
+              console.error("Erro ao obter produtos: ", error);
+          }
+      };
+
+      fetchProducts();
+  }, []);
+    const handleProductAdded = () => {
+        setShowForm(false);
     };
 
     return (
-      <View style={styles.container}>
-        {!showForm ? (
-          <Button title="Inserir Produto" onPress={() => setShowForm(true)} />
-        ) : (
-          <View style={styles.form}>
-            <TextInput
-              placeholder="Nome"
-              value={nome}
-              onChangeText={setNome}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Descrição"
-              value={descricao}
-              onChangeText={setDescricao}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Preço"
-              value={preco}
-              onChangeText={setPreco}
-              style={styles.input}
-              keyboardType="numeric"
-            />
-            <TextInput
-              placeholder="Quantidade"
-              value={quantidade}
-              onChangeText={setQuantidade}
-              style={styles.input}
-              keyboardType="numeric"
-            />
-            <Button title="Salvar Produto" onPress={handleInsertProduct} />
-          </View>
-        )}
-      </View>
+        <View style={styles.container}>
+          <FlatList 
+            data={products}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.productItem}>
+                <Text>{item.nome}</Text>
+                <Text>{item.descricao}</Text>
+                <Text>{item.preco}</Text>
+                <Text>{item.estoque}</Text>
+              </View>
+            )}
+          />
+          {!showForm ? (
+            <Button title="Inserir Produto" onPress={() => setShowForm(true)} />
+          ) : (
+            <InserirProduto onProductAdded={handleProductAdded} />
+          )}
+        </View>
     );
-          
-  }
-  
-  const styles = StyleSheet.create({
+}
+
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-      },
-  });
+    }
+});
