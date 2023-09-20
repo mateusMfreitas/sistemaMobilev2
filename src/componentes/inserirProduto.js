@@ -1,11 +1,9 @@
-// components/ProductInsertForm.js
-
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { addDoc, collection } from "firebase/firestore"; 
 import { db } from '../../firebaseConfig';
 
-export default function InserirProduto({ onProductAdded }) {
+export default function InserirProduto({ fecharFormulario }) {
     const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState('');
     const [preco, setPreco] = useState('');
@@ -26,13 +24,12 @@ export default function InserirProduto({ onProductAdded }) {
             });
             Alert.alert("Sucesso", "Produto adicionado com sucesso!");
 
-            // Limpar os campos após inserção
             setNome('');
             setDescricao('');
             setPreco('');
             setQuantidade('');
 
-            if (onProductAdded) onProductAdded();
+            if (fecharFormulario) fecharFormulario();
 
         } catch (error) {
             console.error("Erro ao adicionar produto:", error);
@@ -42,6 +39,8 @@ export default function InserirProduto({ onProductAdded }) {
 
     return (
         <View style={styles.form}>
+            <Button title="Fechar" onPress={fecharFormulario} />
+
             <TextInput
                 placeholder="Nome"
                 value={nome}

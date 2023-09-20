@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, Button, StyleSheet, FlatList } from 'react-native';
 import InserirProduto from '../../componentes/inserirProduto'; 
 import ListarProdutos from '../../componentes/listarProdutos';
+import Item from '../../componentes/item';
 
 export default function Produtos({ navigation }) {
     const [showForm, setShowForm] = useState(false);
@@ -19,7 +20,7 @@ export default function Produtos({ navigation }) {
 
       fetchProducts();
   }, []);
-    const handleProductAdded = () => {
+    const fecharFormulario = () => {
         setShowForm(false);
     };
 
@@ -28,19 +29,12 @@ export default function Produtos({ navigation }) {
           <FlatList 
             data={products}
             keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.productItem}>
-                <Text>{item.nome}</Text>
-                <Text>{item.descricao}</Text>
-                <Text>{item.preco}</Text>
-                <Text>{item.estoque}</Text>
-              </View>
-            )}
+            renderItem={({ item }) => <Item item={item} />}
           />
           {!showForm ? (
             <Button title="Inserir Produto" onPress={() => setShowForm(true)} />
           ) : (
-            <InserirProduto onProductAdded={handleProductAdded} />
+            <InserirProduto fecharFormulario={fecharFormulario} />
           )}
         </View>
     );

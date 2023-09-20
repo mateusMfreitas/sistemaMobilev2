@@ -1,12 +1,12 @@
 import React from 'react';  
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {  StyleSheet } from 'react-native';
-import Adashboard from './dashboard';
-import Produtos from './produtos';
-import Eventos from './eventos';
-import Configuracoes from './configuracoes';
+import Adashboard from '../telas/admin/dashboard';
+import Produtos from '../telas/admin/produtos';
+import Eventos from '../telas/admin/eventos';
+import Configuracoes from '../telas/admin/configuracoes';
 
-export default function ProdutosNavigator({ navigation }) {
+export default function BottomNavigator({ navigation }) {
   const Tab = createBottomTabNavigator();
     return (
       <Tab.Navigator initialRouteName="Adashboard">
