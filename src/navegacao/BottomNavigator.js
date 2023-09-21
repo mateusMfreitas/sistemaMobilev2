@@ -5,13 +5,14 @@ import Adashboard from '../telas/admin/dashboard';
 import Produtos from '../telas/admin/produtos';
 import Eventos from '../telas/admin/eventos';
 import Configuracoes from '../telas/admin/configuracoes';
+import ProdutosNavigator from './ProdutosNavigator';
 
 export default function BottomNavigator({ navigation }) {
   const Tab = createBottomTabNavigator();
     return (
       <Tab.Navigator initialRouteName="Adashboard">
         <Tab.Screen name="Adashboard" component={Adashboard} />
-        <Tab.Screen name="Produtos" component={Produtos} />
+        <Tab.Screen name="Produtos" component={ProdutosNavigator} />
         <Tab.Screen name="Configurações" component={Configuracoes} />
         <Tab.Screen name="Eventos" component={Eventos} />
       </Tab.Navigator>
