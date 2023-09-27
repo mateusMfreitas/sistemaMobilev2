@@ -1,12 +1,17 @@
-import { Text, View, StyleSheet } from 'react-native';
-export default function Item({ item }) {
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+export default function Item({ item, navigation }) {
+    const editarProduto = () => {
+        navigation.navigate('EditarProduto', { item: item });
+    };
     return (
-        <View style={styles.productItem}>
-            <Text style={styles.productName}>{item.nome}</Text>
-            <Text style={styles.productDescription}>{item.descricao}</Text>
-            <Text style={styles.productPrice}>R$ {item.preco},00</Text>
-            <Text style={styles.productStock}>Estoque: {item.estoque}</Text>
-        </View>
+        <TouchableOpacity onPress={editarProduto}>
+            <View style={styles.productItem}>
+                <Text style={styles.productName}>{item.nome}</Text>
+                <Text style={styles.productDescription}>{item.descricao}</Text>
+                <Text style={styles.productPrice}>R$ {item.preco},00</Text>
+                <Text style={styles.productStock}>Estoque: {item.estoque}</Text>
+            </View>
+        </TouchableOpacity>
     );
 }
 const styles = StyleSheet.create({
