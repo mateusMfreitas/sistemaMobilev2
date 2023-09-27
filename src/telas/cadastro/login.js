@@ -1,28 +1,21 @@
 import {SafeAreaView, StyleSheet, TextInput, Button, Alert } from 'react-native';
+import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-import React, { useState } from 'react';
 
 export default function Login({ navigation }) {
-  const auth = getAuth();
+  
   const [username, setUsername] = useState('');  
   const [password, setPassword] = useState('');
-
-  /*const handleLogin = async () => {
-    try{
-      const resposta = await signInWithEmailAndPassword(auth, email, password);
-
-      if (resposta && resposta.user) {
-        Alert.alert('Sucesso!', 'Logado com sucesso!');
-        navigation.navigate('BottomNavigator');
-    } else {
-        Alert.alert('Erro', 'Não foi possível realizar o login.');
+  async function handleLogin(){
+    const auth = getAuth();
+    try {
+      await signInWithEmailAndPassword(auth, username, password);
+      navigation.navigate('BottomNavigator');
+    } catch (error) {
+      alert("Erro ao fazer login: " + error.message);
     }
-
-    }catch{
-  Alert.alert('Erro', 'Não foi possível realizar o login.');
-};
-  } */
+  }
 
   return (
       <SafeAreaView style={styles.container}>
@@ -41,8 +34,7 @@ export default function Login({ navigation }) {
           />
           <Button
             title="Login"
-            onPress={navigation.navigate('BottomNavigator')}
-            //Por enquanto ele está enviando diretamente para a dashboard, pois estamos resolvendo problemas no login
+            onPress={handleLogin}
           />
           <Button
             title="Cadastro"
