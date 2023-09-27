@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
 
 export default function EditarProduto({ navigation, route  }) {
@@ -18,24 +18,22 @@ export default function EditarProduto({ navigation, route  }) {
         }
 
         try {
-            await addDoc(collection(db, "produtos"), {
+            const docRef = db.collection('produtos').doc(item.id);
+            docRef.update({
                 nome: nome,
                 descricao: descricao,
                 preco: parseFloat(preco),
                 estoque: parseInt(quantidade, 10)
             });
-            Alert.alert("Sucesso", "Produto adicionado com sucesso!");
+            Alert.alert("Sucesso", "Produto editado com sucesso!");
 
             setNome('');
             setDescricao('');
             setPreco('');
             setQuantidade('');
 
-            if (fecharFormulario) fecharFormulario();
-
         } catch (error) {
-            console.error("Erro ao adicionar produto:", error);
-            Alert.alert("Erro", "Erro ao adicionar produto.");
+            Alert.alert("Erro", "Erro ao atualizar produto.");
         }
     };
 
