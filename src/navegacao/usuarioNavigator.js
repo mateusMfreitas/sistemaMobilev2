@@ -4,6 +4,7 @@ import {  StyleSheet } from 'react-native';
 import Udashboard from '../telas/usuario/dashboard';
 import Configuracoes from '../telas/usuario/configuracoes';
 import ProdutoUsuarioNavigator from './ProdutoUsuarioNavigator'
+import Carrinho from '../telas/usuario/carrinho';
 
 export default function UsuarioNavigator({ navigation }) {
   const Tab = createBottomTabNavigator();
@@ -13,6 +14,8 @@ export default function UsuarioNavigator({ navigation }) {
       }}>
         <Tab.Screen name="Udashboard" component={ProdutoUsuarioNavigator} />
         <Tab.Screen name="Configurações" component={Configuracoes} />
+        <Tab.Screen name="Carrinho" component={Carrinho} />
+
       </Tab.Navigator>
     );   
   }
