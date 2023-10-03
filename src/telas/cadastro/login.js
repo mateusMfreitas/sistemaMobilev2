@@ -1,18 +1,29 @@
 import {SafeAreaView, StyleSheet, TextInput, Button, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from '../../../firebaseConfig';
+import UsuarioNavigator from '../../navegacao/usuarioNavigator';
 
 export default function Login({ navigation }) {
   
   const [username, setUsername] = useState('');  
   const [password, setPassword] = useState('');
+
   async function handleLogin(){
+    
     const auth = getAuth();
     try {
-      await signInWithEmailAndPassword(auth, username, password);
-      navigation.navigate('BottomNavigator');
-    } catch (error) {
+      const credenciais = await signInWithEmailAndPassword(auth, username, password);
+      const user = credenciais.user;
+      const q = query(collection(db, "admins"), where("usuario", "==", username.toLowerCase()));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        navigation.navigate('BottomNavigator');
+      }else{
+        navigation.navigate('UsuarioNavigator');
+      }
+    }catch (error) {
       alert("Erro ao fazer login: " + error.message);
     }
   }
