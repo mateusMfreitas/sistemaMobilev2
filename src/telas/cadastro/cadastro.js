@@ -2,6 +2,7 @@ import {SafeAreaView, StyleSheet, TextInput, Button, Alert } from 'react-native'
 import React, { useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {View, Text} from 'react-native';
 
 
 
@@ -22,7 +23,8 @@ export default function Cadastro({ navigation }) {
   };
 
   return (
-      <SafeAreaView style={styles.container}>
+    
+    <SafeAreaView style={styles.container}>
           <TextInput
               style={styles.input}
               onChangeText={setUsername}
@@ -35,6 +37,7 @@ export default function Cadastro({ navigation }) {
               value={password}
               placeholder="Senha"
               secureTextEntry={true}  // Oculta o texto da senha
+              
           />
           <Button
             title="Criar Usuário"
