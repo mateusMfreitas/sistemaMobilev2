@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function DetalharProduto({ navigation, route  }) {
-    const [nome, setNome] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [preco, setPreco] = useState('');
     const { item } = route.params;
     const precoString = item.preco.toString();
-
     const handleAddToCart = async () => {
+        const valorAntigo = await AsyncStorage.getItem("carrinho");
+        const arrayAtual = valorAntigo ? JSON.parse(valorAntigo) : [];
         
+        arrayAtual.id = arrayAtual.id +','+ item.id;
+        await AsyncStorage.setItem("carrinho", JSON.stringify(arrayAtual));
+        Alert.alert("Sucesso", "Produto adicionado ao carrinho");
+
     };
 
     return( 
