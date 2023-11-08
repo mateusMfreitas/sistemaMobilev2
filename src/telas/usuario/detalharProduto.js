@@ -1,19 +1,46 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getStorage, ref } from "firebase/storage";
+import { getDocs, collection } from "firebase/firestore";
+import { db } from '../../../firebaseConfig';
+import { getAuth } from "firebase/auth";
+
+
 
 
 export default function DetalharProduto({ navigation, route  }) {
+    const [imageUrl, setImageUrl] = useState(null);
+
+    const storage = getStorage();
+    const pathReference = ref(storage, 'eren.png');
     const { item } = route.params;
     const precoString = item.preco.toString();
     const handleAddToCart = async () => {
-        const valorAntigo = await AsyncStorage.getItem("carrinho");
-        const arrayAtual = valorAntigo ? JSON.parse(valorAntigo) : [];
-        
-        arrayAtual.id = arrayAtual.id +','+ item.id;
-        await AsyncStorage.setItem("carrinho", JSON.stringify(arrayAtual));
-        Alert.alert("Sucesso", "Produto adicionado ao carrinho");
+        const colecao = db.collection('carrinho');
+        const auth = getAuth();
+        const user = auth.currentUser.uid;
 
+        colecao.where('id_usuario', '==', user).get()
+        .then((querySnapshot) => {
+            /* querySnapshot.forEach((doc) => {
+            const documentoID = doc.id;
+            const valorAInserir = 'NovoValor';
+
+            colecao.doc(documentoID).update({
+                meuArray: firebase.firestore.FieldValue.arrayUnion(valorAInserir)
+            })
+                .then(() => {
+                console.log('Valor adicionado com sucesso ao array.');
+                })
+                .catch((error) => {
+                console.error('Erro ao adicionar valor ao array:', error);
+                });
+            }) */;
+        })
+        .catch((error) => {
+            console.error('Erro ao consultar a coleção:', error);
+        });
     };
 
     return( 
