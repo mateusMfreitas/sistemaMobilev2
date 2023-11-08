@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getStorage, ref } from "firebase/storage";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, query,where, setDoc } from "firebase/firestore";
 import { db } from '../../../firebaseConfig';
 import { getAuth } from "firebase/auth";
 
@@ -17,30 +17,22 @@ export default function DetalharProduto({ navigation, route  }) {
     const { item } = route.params;
     const precoString = item.preco.toString();
     const handleAddToCart = async () => {
-        const colecao = db.collection('carrinho');
         const auth = getAuth();
         const user = auth.currentUser.uid;
-
-        colecao.where('id_usuario', '==', user).get()
-        .then((querySnapshot) => {
-            /* querySnapshot.forEach((doc) => {
-            const documentoID = doc.id;
-            const valorAInserir = 'NovoValor';
-
-            colecao.doc(documentoID).update({
-                meuArray: firebase.firestore.FieldValue.arrayUnion(valorAInserir)
-            })
-                .then(() => {
-                console.log('Valor adicionado com sucesso ao array.');
-                })
-                .catch((error) => {
-                console.error('Erro ao adicionar valor ao array:', error);
-                });
-            }) */;
-        })
-        .catch((error) => {
-            console.error('Erro ao consultar a coleção:', error);
-        });
+        const Collection = collection(db, "carrinhos");
+        const q = query(Collection, where('id_usuario', '==', user));
+        const Snapshot = await getDocs(q);
+        Snapshot.forEach(async (doc) => {
+            const documentoRef = doc.ref;
+            const novosItens = [...doc.data().itens, item.id]; 
+          
+            try {
+              await setDoc(documentoRef, { itens: novosItens }, { merge: true });
+              console.log('Array "itens" atualizado com sucesso.');
+            } catch (error) {
+              console.error('Erro ao atualizar o array "itens":', error);
+            }
+          });         
     };
 
     return( 

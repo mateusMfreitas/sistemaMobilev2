@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, FlatList } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../../../firebaseConfig';
+import { getAuth } from "firebase/auth";
 
 
 export default function Carrinho({ navigation }) {
@@ -12,31 +12,17 @@ export default function Carrinho({ navigation }) {
   useEffect(() => {
     getCarrinho();
   }, []);
-  async function getProduto(id){
-    const docRef = doc(db, "produtos", id);
-    const docSnap = await getDoc(docRef);
-    produtos.push(docSnap.data());
-    return(docSnap.data());
-  }
+  
   async function getCarrinho() {
-    try {
-      const carrinho = await AsyncStorage.getItem("carrinho");
-      const carrinhoObj = JSON.parse(carrinho);
-      console.log(carrinhoObj);
-      if (carrinhoObj.id !== null) {
-        setIds(carrinhoObj.id.split(','));
-  
-        const promises = ids.map(async (id) => {
-          return getProduto(id);
-        });
-  
-        const produtos = await Promise.all(promises);
-        setProdutos(produtos);
-        console.log(produtos); 
-      }
-    } catch (error) {
-      console.log('Erro ao buscar os IDs:', error);
-    }
+    const auth = getAuth();
+        const user = auth.currentUser.uid;
+        const Collection = collection(db, "carrinhos");
+        const q = query(Collection, where('id_usuario', '==', user));
+        const Snapshot = await getDocs(q);
+        Snapshot.forEach(async (doc) => {
+            const itens = [...doc.data().itens];
+            console.log(itens);
+          }); 
   }
 
   const Item = ({id}) => (
