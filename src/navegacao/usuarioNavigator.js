@@ -1,20 +1,19 @@
 import React from 'react';  
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {  StyleSheet } from 'react-native';
-import Udashboard from '../telas/usuario/dashboard';
-import Configuracoes from '../telas/usuario/configuracoes';
+import PedidosNavigator from './PedidosNavigator';
 import ProdutoUsuarioNavigator from './ProdutoUsuarioNavigator'
-import Carrinho from '../telas/usuario/carrinho';
-
+import PagamentoNavigator from './PagamentoNavigator';
 export default function UsuarioNavigator({ navigation }) {
   const Tab = createBottomTabNavigator();
     return (
-      <Tab.Navigator initialRouteName="Udashboard"  screenOptions={{
+      <Tab.Navigator initialRouteName="Produtos"  screenOptions={{
         headerShown: false
       }}>
-        <Tab.Screen name="Udashboard" component={ProdutoUsuarioNavigator} />
-        <Tab.Screen name="Configurações" component={Configuracoes} />
-        <Tab.Screen name="Carrinho" component={Carrinho} />
+        <Tab.Screen name="Produtos" component={ProdutoUsuarioNavigator} />
+        <Tab.Screen name="MeusPedidos" component={PedidosNavigator} />
+        <Tab.Screen name="Carrinho" component={PagamentoNavigator} />
+
 
       </Tab.Navigator>
     );   

@@ -5,6 +5,8 @@ import { getStorage, ref } from "firebase/storage";
 import { getDocs, collection, query,where, setDoc } from "firebase/firestore";
 import { db } from '../../../firebaseConfig';
 import { getAuth } from "firebase/auth";
+import { useNavigation } from '@react-navigation/native';
+
 
 
 
@@ -28,7 +30,9 @@ export default function DetalharProduto({ navigation, route  }) {
           
             try {
               await setDoc(documentoRef, { itens: novosItens }, { merge: true });
-              console.log('Array "itens" atualizado com sucesso.');
+              navigation.navigate('Carrinhos', { atualizarTudo: true });
+              Alert.alert('Sucesso', 'Item adicionado ao carrinho');
+
             } catch (error) {
               console.error('Erro ao atualizar o array "itens":', error);
             }
