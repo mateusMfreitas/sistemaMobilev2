@@ -31,17 +31,17 @@ export default function Udashboard({ navigation }) {
     };
     return (
         <View style={styles.container}>
-          {carregando ? 
-          <ActivityIndicator size='large' color='black'/>
-          :
-          <FlatList 
-            data={products}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => <Item navigation={navigation} item={item}/>}
-          />
-          }
-
-        </View>
+    {carregando ? 
+    <ActivityIndicator size='large' color='black'/>
+    :
+    <FlatList 
+      data={products}
+      keyExtractor={item => item.id}
+      renderItem={({ item }) => <Item style={styles.item} navigation={navigation} item={item}/>}
+      contentContainerStyle={styles.list}
+    />
+    }
+  </View>
     );
 }
 
@@ -51,5 +51,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+    
+      list: {
+        padding: 10,
+      }
 });

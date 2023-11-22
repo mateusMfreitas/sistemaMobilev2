@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-export default function PedidoUsuario({ item, navigation }) {
+export default function PedidoAdmin({ item, navigation, route }) {
+
     const getStatusColor = (status) => {
         switch (status) {
           case 'pendente':

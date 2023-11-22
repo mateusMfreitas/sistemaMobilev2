@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 function PedidosNavigator() {
   return (
     <Stack.Navigator initialRouteName="MeusPedidos">
-        <Stack.Screen name="MeusPedidos" component={MeusPedidos} initialParams={{ atualizarTudo: true }}/>
+        <Stack.Screen name="MeusPedidos" component={MeusPedidos} initialParams={{ atualizarTudo: true }}  options={{ headerShown: false }}/>
         <Stack.Screen name="DetalharPedido" component={DetalharPedido} />
     </Stack.Navigator>
   );

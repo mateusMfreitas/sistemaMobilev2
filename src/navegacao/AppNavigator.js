@@ -1,6 +1,5 @@
 
 import UsuarioNavigator from './usuarioNavigator';
-import Vendas from '../telas/admin/vendas';
 import BottomNavigator from './BottomNavigator';
 import Login from '../telas/cadastro/login';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,7 +14,6 @@ function AppNavigator() {
      <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Cadastro" component={Cadastro} />
-      <Stack.Screen name="Vendas" component={Vendas} />
       <Stack.Screen name="BottomNavigator" component={BottomNavigator}  options={{
     headerTitle: 'Logout', 
     headerBackTitle: null

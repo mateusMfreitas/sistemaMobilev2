@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+import VendasPorProduto from '../../componentes/graficos/vendasPorProduto';
+import VendasMesAtual from '../../componentes/graficos/vendasMesAtual';
+import VendasMensais from '../../componentes/graficos/vendasMensais';
 
 export default function ADashboard({ navigation }) {
  return( 
   <View style={styles.container}>
-    <Text>Aqui terão gráficos e infomações gerais sobre o aplicativo, vendas e seu desempenho </Text> 
-
-    <Button 
-        title="Ir para Vendas" 
-        onPress={() => navigation.navigate('Vendas')} 
-      /> 
+    <ScrollView>
+      <VendasMesAtual></VendasMesAtual>
+      <VendasPorProduto></VendasPorProduto>
+      <VendasMensais></VendasMensais>
+    </ScrollView>
   </View>
  );
 

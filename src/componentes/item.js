@@ -17,9 +17,16 @@ export default function Item({ item, navigation }) {
 const styles = StyleSheet.create({
     productItem: {
         padding: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#eee',
-    },
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 2,
+        marginVertical: 8,
+        borderWidth: 1, 
+        borderColor: '#000',
+      },
     productName: {
         fontSize: 18,
         fontWeight: 'bold',

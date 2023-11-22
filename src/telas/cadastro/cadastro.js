@@ -1,10 +1,9 @@
-import {SafeAreaView, StyleSheet, TextInput, Button, Alert } from 'react-native';
+import {SafeAreaView, StyleSheet, TextInput, Button, Alert, TouchableOpacity, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import {View, Text} from 'react-native';
 import { db } from '../../../firebaseConfig';
-
+import { estilosComuns } from '../../estilo/estilosComuns';
 
 
 export default function Cadastro({ navigation }) {
@@ -31,23 +30,22 @@ export default function Cadastro({ navigation }) {
     
     <SafeAreaView style={styles.container}>
           <TextInput
-              style={styles.input}
+              style={estilosComuns.input}
               onChangeText={setUsername}
               value={username}
               placeholder="E-Mail"
           />
           <TextInput
-              style={styles.input}
+              style={estilosComuns.input}
               onChangeText={setPassword}
               value={password}
               placeholder="Senha"
-              secureTextEntry={true}  // Oculta o texto da senha
+              secureTextEntry={true}
               
           />
-          <Button
-            title="Criar Usuário"
-            onPress={criarUsuario}
-          ></Button>
+          <TouchableOpacity style={estilosComuns.button} onPress={criarUsuario}>
+            <Text style={estilosComuns.buttonText}>Criar Usuário</Text>
+          </TouchableOpacity>
       </SafeAreaView>
   );
 }

@@ -75,26 +75,54 @@ export default function Carrinho({ navigation, route }) {
     })
 
     Alert.alert("Sucesso", "Pedido feito!");
-    console.log(novoPedido);
     navigation.navigate('Pagamento', { pedido: novoPedido });
     
   }
 
- return( 
-  <View>      
-      <Text>Itens do Carrinho:</Text>
-      <FlatList
-        data={carrinho}
-        keyExtractor={(item) => item.nome} 
-        renderItem={({ item }) => (
-          <View>
-            <Text>Nome: {item.nome}</Text>
-            <Text>Preço: {item.preco}</Text>
-          </View>
-        )}
-      />
-      <Button title="Finalizar Compra" onPress={handleFinalizarCompra}></Button>
-    </View>
- );
+  return( 
+    <View style={styles.container}>      
+        <Text style={styles.title}>Itens do Carrinho:</Text>
+        <FlatList
+          data={carrinho}
+          keyExtractor={(item) => item.nome} 
+          renderItem={({ item }) => (
+            <View style={styles.itemContainer}>
+              <Text style={styles.itemName}>Nome: {item.nome}</Text>
+              <Text style={styles.itemPrice}>Preço: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.preco)}</Text>
+                          </View>
+          )}
+        />
+        <View style={styles.buttonContainer}>
+          <Button title="Finalizar Compra" onPress={handleFinalizarCompra} color="#841584"/>
+        </View>
+      </View>
+   );
 
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  itemContainer: {
+    borderWidth: 1,
+    borderColor: '#000',
+    padding: 10,
+    marginBottom: 10,
+  },
+  itemName: {
+    fontSize: 16,
+  },
+  itemPrice: {
+    fontSize: 16,
+  },
+  buttonContainer: {
+    marginTop: 20,
+  },
+});

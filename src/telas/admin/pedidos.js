@@ -4,21 +4,21 @@ import { useFocusEffect } from '@react-navigation/native';
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from '../../../firebaseConfig';
-import PedidoUsuario from '../../componentes/PedidoUsuario';
+import PedidoAdmin from '../../componentes/PedidoAdmin';
 
-export default function MeusPedidos({ navigation, route }) {    
+export default function Pedidos({ navigation, route }) {    
     const [pedidos, setPedidos] = useState([]);
     const [carregando, setCarregando] = useState(true);
 
   useFocusEffect(
     React.useCallback(() => {
       async function getPedidos() {
-        const user = getAuth().currentUser.uid;
         const Collection = collection(db, "pedidos");
-        const Snapshot = await getDocs(query(Collection, where('usuario', '==', user)));
+        const Snapshot = await getDocs(Collection);
         let promises = [];
         Snapshot.forEach((doc) => {
-            promises.push(doc.data());
+          const data = doc.data();
+          promises.push({ id: doc.id, ...data });
         });
         const resultados = await Promise.all(promises);
         setPedidos(resultados);
@@ -35,7 +35,7 @@ export default function MeusPedidos({ navigation, route }) {
           <FlatList 
             data={pedidos}
             keyExtractor={item => item.id}
-            renderItem={({ item }) => <PedidoUsuario navigation={navigation} item={item}/>}
+            renderItem={({ item }) => <PedidoAdmin navigation={navigation} item={item} />}
           />
           }
         </View>
