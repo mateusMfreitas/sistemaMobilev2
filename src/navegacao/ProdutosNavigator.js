@@ -10,8 +10,12 @@ const Stack = createStackNavigator();
 function ProdutosNavigator() {
   return (
     <Stack.Navigator initialRouteName="Produtos">
-      <Stack.Screen name="ListaProdutos" component={Produtos} />
-      <Stack.Screen name="EditarProduto" component={EditarProduto} />
+      <Stack.Screen 
+        name="ListaProdutos" 
+        component={Produtos} 
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="EditarProduto" component={EditarProduto} options={{ title: "Voltar" }}/>
     </Stack.Navigator>
   );
 }
