@@ -18,7 +18,8 @@ export default function MeusPedidos({ navigation, route }) {
         const Snapshot = await getDocs(query(Collection, where('usuario', '==', user)));
         let promises = [];
         Snapshot.forEach((doc) => {
-            promises.push(doc.data());
+          const data = doc.data();
+          promises.push({ id: doc.id, ...data });
         });
         const resultados = await Promise.all(promises);
         setPedidos(resultados);

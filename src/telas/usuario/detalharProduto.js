@@ -8,16 +8,14 @@ import { getAuth } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
 import {estilosComuns} from '../../estilo/estilosComuns';
 
-
-
-
-
 export default function DetalharProduto({ navigation, route  }) {
     const [imageUrl, setImageUrl] = useState(null);
     const [quantity, setQuantity] = useState(1);
 
     const increaseQuantity = () => {
-    setQuantity(prevQuantity => prevQuantity + 1);
+      if (quantity < item.estoque) {
+        setQuantity(prevQuantity => prevQuantity + 1);
+      }
     };
 
     const decreaseQuantity = () => {
@@ -32,25 +30,25 @@ export default function DetalharProduto({ navigation, route  }) {
     const { item } = route.params;
     const precoString = item.preco.toString();
     const handleAddToCart = async () => {
-        const auth = getAuth();
-        const user = auth.currentUser.uid;
-        const Collection = collection(db, "carrinhos");
-        const q = query(Collection, where('id_usuario', '==', user));
-        const Snapshot = await getDocs(q);
-        Snapshot.forEach(async (doc) => {
-            const documentoRef = doc.ref;
-            const novosItens = [...doc.data().itens, item.id]; 
-          
-            try {
-              await setDoc(documentoRef, { itens: novosItens }, { merge: true });
-              navigation.navigate('Carrinhos', { atualizarTudo: true });
-              Alert.alert('Sucesso', 'Item adicionado ao carrinho');
-
-            } catch (error) {
-              console.error('Erro ao atualizar o array "itens":', error);
-            }
-          });         
-    };
+      const auth = getAuth();
+      const user = auth.currentUser.uid;
+      const Collection = collection(db, "carrinhos");
+      const q = query(Collection, where('id_usuario', '==', user));
+      const Snapshot = await getDocs(q);
+      Snapshot.forEach(async (doc) => {
+          const documentoRef = doc.ref;
+          const novosItens = [...doc.data().itens, {id: item.id, quantidade: quantity}]; 
+        
+          try {
+            await setDoc(documentoRef, { itens: novosItens }, { merge: true });
+            navigation.navigate('Carrinhos', { atualizarTudo: true });
+            Alert.alert('Sucesso', 'Item adicionado ao carrinho');
+  
+          } catch (error) {
+            console.error('Erro ao atualizar o array "itens":', error);
+          }
+        });         
+  };
 
     return( 
         <View style={styles.container}>

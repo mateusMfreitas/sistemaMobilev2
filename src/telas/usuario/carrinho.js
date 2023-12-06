@@ -23,7 +23,7 @@ export default function Carrinho({ navigation, route }) {
           const itens = [...doc.data().itens];
   
           for (const item of itens) {
-            promises.push(getProduto(item));
+            promises.push(getProduto(item.id, item.quantidade));
           }
         });
   
@@ -34,11 +34,12 @@ export default function Carrinho({ navigation, route }) {
     }, [])
   );
 
-  async function getProduto(id){
+  async function getProduto(id, quantidade){
     const documentoRef = doc(db, 'produtos', id);
     const documentoSnapshot = await getDoc(documentoRef);
     dados = documentoSnapshot.data();
-    return dados;
+    console.log(dados);
+    return { ...dados, quantidade };
   }
   async function handleFinalizarCompra(){
     let total = 0;
@@ -48,8 +49,8 @@ export default function Carrinho({ navigation, route }) {
 
     );
 
-     const user = getAuth().currentUser.uid;
-    const docRef = await addDoc(collection(db, "pedidos"), {
+      const user = getAuth().currentUser.uid;
+      const docRef = await addDoc(collection(db, "pedidos"), {
       usuario: user,
       total: total,
       itens: carrinho,
@@ -89,7 +90,9 @@ export default function Carrinho({ navigation, route }) {
             <View style={styles.itemContainer}>
               <Text style={styles.itemName}>Nome: {item.nome}</Text>
               <Text style={styles.itemPrice}>Preço: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.preco)}</Text>
-                          </View>
+              <Text style={styles.itemName}>Quantidade: {item.quantidade}</Text>
+
+            </View>
           )}
         />
         <View style={styles.buttonContainer}>
